@@ -10,55 +10,7 @@
   
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Remove="Repositories\**" />
-    <Compile Remove="obj\**" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <EmbeddedResource Remove="Repositories\**" />
-    <EmbeddedResource Remove="obj\**" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Remove="Repositories\**" />
-    <None Remove="obj\**" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <_UnmanagedRegistrationCache Remove="obj\ExpensesCounter.Web.DAL.csproj.UnmanagedRegistration.cache" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <_ResolveComReferenceCache Remove="obj\Debug\netcoreapp2.2\ExpensesCounter.Web.DAL.csproj.ResolveComReference.cache" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <IntermediateAssembly Remove="obj\Debug\netcoreapp2.2\ExpensesCounter.Web.DAL.dll" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <_DebugSymbolsIntermediatePath Remove="obj\Debug\netcoreapp2.2\ExpensesCounter.Web.DAL.pdb" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <_DeploymentManifestEntryPoint Remove="obj\Debug\netcoreapp2.2\ExpensesCounter.Web.DAL.dll" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ApplicationManifest Remove="obj\Debug\netcoreapp2.2\Native.ExpensesCounter.Web.DAL.manifest" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <DeployManifest Remove="obj\Debug\netcoreapp2.2\ExpensesCounter.Web.DAL.application" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Clean Remove="obj\Debug\netcoreapp2.2\\TempCA\ExpensesCounter.Web.DAL.pdb" />
-    <Clean Remove="obj\Debug\netcoreapp2.2\\TempCA\ExpensesCounter.Web.DAL.dll" />
-  </ItemGroup>
-  
 </Project>

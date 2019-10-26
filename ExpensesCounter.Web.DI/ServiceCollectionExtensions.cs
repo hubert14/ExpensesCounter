@@ -1,4 +1,5 @@
-using ExpensesCounter.Web.BLL.Account.Services;
+using ExpensesCounter.Web.BLL;
+using ExpensesCounter.Web.BLL.DI;
 using ExpensesCounter.Web.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,9 +8,9 @@ namespace ExpensesCounter.Web.DI
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection ResolveDependencies(this IServiceCollection services)
         {
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddServices();
 
             return services;
         }

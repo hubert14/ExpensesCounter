@@ -16,7 +16,7 @@ namespace ExpensesCounter.Web.DAL.Entities
 
         public string PasswordHash { get; set; }
 
-        public IEnumerable<ExpenseListUser> ExpensesLists { get; set; }
+        public IEnumerable<ExpensesListUser> ExpensesLists { get; set; }
         public IEnumerable<RefreshToken> RefreshTokens { get; set; }
 
         public DateTimeOffset RegisterDateUtc { get; set; }

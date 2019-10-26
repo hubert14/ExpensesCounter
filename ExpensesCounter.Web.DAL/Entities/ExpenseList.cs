@@ -9,6 +9,6 @@ namespace ExpensesCounter.Web.DAL.Entities
         public string Comment { get; set; }
 
         public IEnumerable<Expense> Expenses { get; set; }
-        public IEnumerable<ExpenseListUser> Users { get; set; }
+        public IEnumerable<ExpensesListUser> Users { get; set; }
     }
 }

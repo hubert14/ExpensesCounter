@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpensesCounter.Web.BLL", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpensesCounter.Web.DAL", "ExpensesCounter.Web.DAL\ExpensesCounter.Web.DAL.csproj", "{BFD8D5CC-9F36-46CE-A390-7912E86FE2A4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9581AE6D-71CD-4C5E-B753-D9A50B1E7DAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpensesCounter.Common.Enums", "ExpensesCounter.Common.Enums\ExpensesCounter.Common.Enums.csproj", "{0DEBA8B2-2160-47D7-9B27-01F29991B13F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,10 @@ Global
 		{BFD8D5CC-9F36-46CE-A390-7912E86FE2A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFD8D5CC-9F36-46CE-A390-7912E86FE2A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFD8D5CC-9F36-46CE-A390-7912E86FE2A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DEBA8B2-2160-47D7-9B27-01F29991B13F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DEBA8B2-2160-47D7-9B27-01F29991B13F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DEBA8B2-2160-47D7-9B27-01F29991B13F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DEBA8B2-2160-47D7-9B27-01F29991B13F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +69,8 @@ Global
 		{DEDACC65-D9FB-47C0-8177-5C699231ECE8} = {6983460C-DCDC-4677-BB5B-195646158472}
 		{1078A1AD-DDF4-4793-9B8B-20DD2001A954} = {6983460C-DCDC-4677-BB5B-195646158472}
 		{BFD8D5CC-9F36-46CE-A390-7912E86FE2A4} = {6983460C-DCDC-4677-BB5B-195646158472}
+		{301085FC-A56D-4DCF-BE6C-6E82665A915F} = {9581AE6D-71CD-4C5E-B753-D9A50B1E7DAB}
+		{0DEBA8B2-2160-47D7-9B27-01F29991B13F} = {9581AE6D-71CD-4C5E-B753-D9A50B1E7DAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8C4DB006-A4E5-4036-81E6-EFB9045B16EA}

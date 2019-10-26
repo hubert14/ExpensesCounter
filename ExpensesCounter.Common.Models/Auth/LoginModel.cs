@@ -2,11 +2,11 @@ namespace ExpensesCounter.Common.Models.Auth
 {
     public class LoginModel
     {
-        public LoginModel(string email, string pass, string confirmPass)
+        public LoginModel(string email, string password, string passwordConfirm)
         {
             Email = email;
-            Password = pass;
-            PasswordConfirm = confirmPass;
+            Password = password;
+            PasswordConfirm = passwordConfirm;
         }
 
         public string Email { get; }

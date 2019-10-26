@@ -1,14 +1,16 @@
 namespace ExpensesCounter.Common.Models.Auth
 {
-    public class TokensResponse
+    public class TokensResponse : AccessTokenResponse
     {
-        public TokensResponse(string access, string refresh)
+        public TokensResponse(string access, string refresh) : base(access)
         {
-            AccessToken = access;
             RefreshToken = refresh;
         }
-
-        public string AccessToken { get; }
+        
+        public TokensResponse(AccessTokenResponse accessTokenResponse, string refresh) : base(accessTokenResponse.AccessToken)
+        {
+            RefreshToken = refresh;
+        }
 
         public string RefreshToken { get; }
     }

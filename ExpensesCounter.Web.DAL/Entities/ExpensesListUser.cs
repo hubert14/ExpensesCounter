@@ -2,7 +2,7 @@ using System;
 
 namespace ExpensesCounter.Web.DAL.Entities
 {
-    public class ExpenseListUser
+    public class ExpensesListUser
     {
         public int UserId { get; set; }
         public User User { get; set; }

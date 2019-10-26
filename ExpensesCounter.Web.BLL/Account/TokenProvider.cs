@@ -39,7 +39,7 @@ namespace ExpensesCounter.Web.BLL.Account
             return new TokensResponse(accessToken, refreshToken);
         }
 
-        public async Task<string> GenerateNewAccessTokenAsync(string refreshToken)
+        public async Task<AccessTokenResponse> GenerateNewAccessTokenAsync(string refreshToken)
         {
             if (string.IsNullOrWhiteSpace(refreshToken))
                 throw new ArgumentNullException(nameof(refreshToken), "Refresh token must have a value");
@@ -51,7 +51,7 @@ namespace ExpensesCounter.Web.BLL.Account
             return GenerateAccessToken(userToken.User);
         }
 
-        public string GenerateNewAccessToken(string refreshToken)
+        public AccessTokenResponse GenerateNewAccessToken(string refreshToken)
         {
             if (string.IsNullOrWhiteSpace(refreshToken))
                 throw new ArgumentNullException(nameof(refreshToken), "Refresh token must have a value");
@@ -63,12 +63,12 @@ namespace ExpensesCounter.Web.BLL.Account
             return GenerateAccessToken(userToken.User);
         }
 
-        private string GenerateAccessToken(User user)
+        private AccessTokenResponse GenerateAccessToken(User user)
         {
             var claims = GenerateClaims(user);
 
             var newToken = _tokenBuilder.GenerateToken(claims);
-            return newToken;
+            return new AccessTokenResponse(newToken);
         }
 
         private async Task<string> GenerateNewRefreshTokenAsync(int userId)

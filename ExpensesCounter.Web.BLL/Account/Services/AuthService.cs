@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ExpensesCounter.Common.Models.Auth;
+using ExpensesCounter.Web.BLL.Account.Interfaces;
 using ExpensesCounter.Web.DAL;
 using ExpensesCounter.Web.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -9,19 +10,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ExpensesCounter.Web.BLL.Account.Services
 {
-    public interface IAuthService
-    {
-        TokensResponse Login(LoginModel loginModel);
-        Task<TokensResponse> LoginAsync(LoginModel loginModel);
-
-        string Login(string refreshToken);
-        Task<string> LoginAsync(string refreshToken);
-
-        TokensResponse Register(RegisterModel registerModel);
-        Task<TokensResponse> RegisterAsync(RegisterModel registerModel);
-    }
-
-    public class AuthService : IAuthService
+    internal class AuthService : IAuthService
     {
         private readonly ApplicationContext _context;
         private readonly TokenProvider _tokenProvider;
@@ -67,12 +56,12 @@ namespace ExpensesCounter.Web.BLL.Account.Services
             return await _tokenProvider.GenerateTokensAsync(existedUser);
         }
 
-        public string Login(string refreshToken)
+        public AccessTokenResponse Login(string refreshToken)
         {
             return _tokenProvider.GenerateNewAccessToken(refreshToken);
         }
 
-        public Task<string> LoginAsync(string refreshToken)
+        public Task<AccessTokenResponse> LoginAsync(string refreshToken)
         {
             return _tokenProvider.GenerateNewAccessTokenAsync(refreshToken);
         }
