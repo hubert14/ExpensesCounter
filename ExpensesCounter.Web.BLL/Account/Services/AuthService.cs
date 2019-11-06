@@ -34,9 +34,9 @@ namespace ExpensesCounter.Web.BLL.Account.Services
         {
             if (!loginModel.IsValid) throw new ArgumentException("Login model is invalid");
 
-            var existedUser = _context.Users.FirstOrDefault(user =>
-                                                                user.Email.ToUpper() ==
-                                                                loginModel.Email.Trim().ToUpper());
+            var existedUser =
+                _context.Users.FirstOrDefault(user => EF.Functions.Like(user.Email.ToUpper(),
+                                                                        loginModel.Email.Trim().ToUpper()));
 
             if (existedUser == null || !PasswordHasher.VerifyPassword(loginModel.Password, existedUser.PasswordHash))
                 throw new ArgumentException("Passwords don't match");
@@ -48,9 +48,9 @@ namespace ExpensesCounter.Web.BLL.Account.Services
         {
             if (!loginModel.IsValid) throw new ArgumentException("Login model is invalid");
 
-            var existedUser = await _context.Users.FirstOrDefaultAsync(user =>
-                                                                           user.Email.ToUpper() ==
-                                                                           loginModel.Email.Trim().ToUpper());
+            var existedUser =
+                await _context.Users.FirstOrDefaultAsync(user => EF.Functions.Like(user.Email.ToUpper(),
+                                                                                   loginModel.Email.Trim().ToUpper()));
 
             if (existedUser == null || !PasswordHasher.VerifyPassword(loginModel.Password, existedUser.PasswordHash))
                 throw new ArgumentException("Passwords don't match");
