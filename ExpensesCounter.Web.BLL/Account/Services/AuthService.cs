@@ -5,26 +5,26 @@ using ExpensesCounter.Common.Models.Auth;
 using ExpensesCounter.Web.BLL.Account.Interfaces;
 using ExpensesCounter.Web.DAL;
 using ExpensesCounter.Web.DAL.Entities;
+using ExpensesCounter.Web.Options;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace ExpensesCounter.Web.BLL.Account.Services
 {
     internal class AuthService : IAuthService
     {
         private readonly ApplicationContext _context;
-        private readonly TokenProvider _tokenProvider;
+        private readonly TokenProvider      _tokenProvider;
 
-        public AuthService(ApplicationContext context, IConfiguration configuration)
+        public AuthService(ApplicationContext context, IOptions<AuthOptions> authOptions)
         {
             _context = context;
 
-            var tokenBuilder = new JwtTokenBuilder(configuration["AuthOptions:SecurityKey"])
+            var tokenBuilder = new JwtTokenBuilder(authOptions.Value.SecurityKey)
             {
-                Audience = configuration["AuthOptions:Audience"],
-                Issuer = configuration["AuthOptions:Issuer"],
-                LifeTime =
-                    TimeSpan.FromMinutes(double.Parse(configuration["AuthOptions:LifetimeInMinutes"]))
+                Audience = authOptions.Value.Audience,
+                Issuer   = authOptions.Value.Issuer,
+                LifeTime = TimeSpan.FromMinutes(authOptions.Value.LifetimeInMinutes)
             };
 
             _tokenProvider = new TokenProvider(context, tokenBuilder);
@@ -35,7 +35,8 @@ namespace ExpensesCounter.Web.BLL.Account.Services
             if (!loginModel.IsValid) throw new ArgumentException("Login model is invalid");
 
             var existedUser = _context.Users.FirstOrDefault(user =>
-                string.Equals(user.Email, loginModel.Email.Trim(), StringComparison.CurrentCultureIgnoreCase));
+                                                                user.Email.ToUpper() ==
+                                                                loginModel.Email.Trim().ToUpper());
 
             if (existedUser == null || !PasswordHasher.VerifyPassword(loginModel.Password, existedUser.PasswordHash))
                 throw new ArgumentException("Passwords don't match");
@@ -48,7 +49,8 @@ namespace ExpensesCounter.Web.BLL.Account.Services
             if (!loginModel.IsValid) throw new ArgumentException("Login model is invalid");
 
             var existedUser = await _context.Users.FirstOrDefaultAsync(user =>
-                string.Equals(user.Email, loginModel.Email.Trim(), StringComparison.CurrentCultureIgnoreCase));
+                                                                           user.Email.ToUpper() ==
+                                                                           loginModel.Email.Trim().ToUpper());
 
             if (existedUser == null || !PasswordHasher.VerifyPassword(loginModel.Password, existedUser.PasswordHash))
                 throw new ArgumentException("Passwords don't match");
@@ -89,15 +91,15 @@ namespace ExpensesCounter.Web.BLL.Account.Services
 
             return new User
             {
-                Email = model.Email,
-                PasswordHash = hash,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber,
-                Birthday = model.Birthday,
+                Email           = model.Email,
+                PasswordHash    = hash,
+                FirstName       = model.FirstName,
+                LastName        = model.LastName,
+                PhoneNumber     = model.PhoneNumber,
+                Birthday        = model.Birthday,
                 RegisterDateUtc = DateTimeOffset.UtcNow,
-                LastLoginUtc = DateTimeOffset.UtcNow,
-                CreatedDateUtc = DateTimeOffset.UtcNow
+                LastLoginUtc    = DateTimeOffset.UtcNow,
+                CreatedDateUtc  = DateTimeOffset.UtcNow
             };
         }
     }

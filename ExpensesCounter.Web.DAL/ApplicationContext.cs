@@ -1,28 +1,38 @@
 using ExpensesCounter.Web.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace ExpensesCounter.Web.DAL
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Expense> Expenses { get; set; }
-        public DbSet<ExpensesList> ExpensesLists { get; set; }
+        private readonly string _connectionString;
 
-        public DbSet<ExpensesListUser> UserLists { get; set; }
-
-        public DbSet<User> Users { get; set; }
-
-        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Expense>          Expenses      { get; set; }
+        public DbSet<ExpensesList>     ExpensesLists { get; set; }
+        public DbSet<ExpensesListUser> UserLists     { get; set; }
+        public DbSet<User>             Users         { get; set; }
+        public DbSet<RefreshToken>     RefreshTokens { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-            Database.Migrate();
+        }
+
+        public ApplicationContext(string connectionString)
+        {
+            _connectionString = connectionString;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!string.IsNullOrWhiteSpace(_connectionString))
+                optionsBuilder.UseNpgsql(_connectionString);
+
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }

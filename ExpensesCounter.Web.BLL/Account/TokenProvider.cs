@@ -13,11 +13,11 @@ namespace ExpensesCounter.Web.BLL.Account
     internal class TokenProvider
     {
         private readonly ApplicationContext _context;
-        private readonly JwtTokenBuilder _tokenBuilder;
+        private readonly JwtTokenBuilder    _tokenBuilder;
 
         public TokenProvider(ApplicationContext context, JwtTokenBuilder tokenBuilder)
         {
-            _context = context;
+            _context      = context;
             _tokenBuilder = tokenBuilder;
         }
 
@@ -25,7 +25,7 @@ namespace ExpensesCounter.Web.BLL.Account
         {
             User.GenerateExceptionIfNull(user);
 
-            var accessToken = GenerateAccessToken(user);
+            var accessToken  = GenerateAccessToken(user);
             var refreshToken = await GenerateNewRefreshTokenAsync(user.Id);
             return new TokensResponse(accessToken, refreshToken);
         }
@@ -34,7 +34,7 @@ namespace ExpensesCounter.Web.BLL.Account
         {
             User.GenerateExceptionIfNull(user);
 
-            var accessToken = GenerateAccessToken(user);
+            var accessToken  = GenerateAccessToken(user);
             var refreshToken = GenerateNewRefreshToken(user.Id);
             return new TokensResponse(accessToken, refreshToken);
         }
@@ -45,7 +45,7 @@ namespace ExpensesCounter.Web.BLL.Account
                 throw new ArgumentNullException(nameof(refreshToken), "Refresh token must have a value");
 
             var userToken = await _context.RefreshTokens.Include(entity => entity.User)
-                .FirstOrDefaultAsync(entity => entity.Token == refreshToken);
+                                          .FirstOrDefaultAsync(entity => entity.Token == refreshToken);
             if (userToken == null) throw new KeyNotFoundException("Refresh token is invalid");
 
             return GenerateAccessToken(userToken.User);
@@ -57,7 +57,7 @@ namespace ExpensesCounter.Web.BLL.Account
                 throw new ArgumentNullException(nameof(refreshToken), "Refresh token must have a value");
 
             var userToken = _context.RefreshTokens.Include(entity => entity.User)
-                .FirstOrDefault(entity => entity.Token == refreshToken);
+                                    .FirstOrDefault(entity => entity.Token == refreshToken);
             if (userToken == null) throw new KeyNotFoundException("Refresh token is invalid");
 
             return GenerateAccessToken(userToken.User);
@@ -95,6 +95,7 @@ namespace ExpensesCounter.Web.BLL.Account
         private void RemoveExistedRefreshTokens(int userId)
         {
             var userTokens = FindUserTokens(userId);
+
             foreach (var token in userTokens) _context.Entry(token).State = EntityState.Deleted;
         }
 

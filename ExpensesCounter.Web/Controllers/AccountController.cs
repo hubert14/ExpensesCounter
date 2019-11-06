@@ -25,7 +25,8 @@ namespace ExpensesCounter.Web.Controllers
         {
             try
             {
-                TokensResponse tokens = await _authService.LoginAsync(model);
+                var tokens = await _authService.LoginAsync(model);
+
                 return new JsonResult(tokens);
             }
             catch (ArgumentException e)
@@ -37,13 +38,13 @@ namespace ExpensesCounter.Web.Controllers
                 return StatusCode((int) HttpStatusCode.InternalServerError, new ErrorResponseModel(e.Message));
             }
         }
-        
+
         [HttpPost("login/{refreshToken}")]
         public async Task<IActionResult> LoginByRefreshTokenAsync(string refreshToken)
         {
             try
             {
-                AccessTokenResponse accessToken = await _authService.LoginAsync(refreshToken);
+                var accessToken = await _authService.LoginAsync(refreshToken);
                 return new JsonResult(accessToken);
             }
             catch (ArgumentException e)
@@ -55,13 +56,13 @@ namespace ExpensesCounter.Web.Controllers
                 return StatusCode((int) HttpStatusCode.InternalServerError, new ErrorResponseModel(e.Message));
             }
         }
-        
+
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(RegisterModel model)
         {
             try
             {
-                TokensResponse tokens = await _authService.RegisterAsync(model);
+                var tokens = await _authService.RegisterAsync(model);
                 return new JsonResult(tokens);
             }
             catch (ArgumentException e)

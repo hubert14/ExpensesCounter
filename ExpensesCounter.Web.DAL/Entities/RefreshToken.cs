@@ -11,7 +11,7 @@ namespace ExpensesCounter.Web.DAL.Entities
         public RefreshToken(int userId, string token)
         {
             UserId = userId;
-            Token = token;
+            Token  = token;
 
             CreatedDateUtc = DateTimeOffset.UtcNow;
         }
@@ -19,13 +19,13 @@ namespace ExpensesCounter.Web.DAL.Entities
         public RefreshToken(int userId)
         {
             UserId = userId;
-            Token = Guid.NewGuid().ToString();
+            Token  = Guid.NewGuid().ToString();
 
             CreatedDateUtc = DateTimeOffset.UtcNow;
         }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int  UserId { get; set; }
+        public User User   { get; set; }
 
         public string Token { get; set; }
 

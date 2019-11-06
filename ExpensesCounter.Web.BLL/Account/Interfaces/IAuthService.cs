@@ -5,13 +5,13 @@ namespace ExpensesCounter.Web.BLL.Account.Interfaces
 {
     public interface IAuthService
     {
-        TokensResponse Login(LoginModel loginModel);
+        TokensResponse       Login(LoginModel loginModel);
         Task<TokensResponse> LoginAsync(LoginModel loginModel);
 
-        AccessTokenResponse Login(string refreshToken);
+        AccessTokenResponse       Login(string refreshToken);
         Task<AccessTokenResponse> LoginAsync(string refreshToken);
 
-        TokensResponse Register(RegisterModel registerModel);
+        TokensResponse       Register(RegisterModel registerModel);
         Task<TokensResponse> RegisterAsync(RegisterModel registerModel);
     }
 }

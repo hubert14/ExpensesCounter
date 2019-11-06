@@ -19,6 +19,8 @@ namespace ExpensesCounter.Web.DI
         {
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connectionString));
 
+            using (var ctx = new ApplicationContext(connectionString)) ctx.Database.Migrate();
+
             return services;
         }
     }
