@@ -8,6 +8,7 @@ namespace ExpensesCounter.Web.Utils.Mapping
             new MapperConfiguration(mc =>
                 {
                     mc.AddProfile(new UsersMappingProfile());
+                    mc.AddProfile(new ExpensesMappingProfile());
                 }).CreateMapper();
     }
 }
