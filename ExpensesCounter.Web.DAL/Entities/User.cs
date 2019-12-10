@@ -22,6 +22,8 @@ namespace ExpensesCounter.Web.DAL.Entities
         public DateTimeOffset RegisterDateUtc { get; set; }
         public DateTimeOffset LastLoginUtc    { get; set; }
 
+        public bool IsEnabled { get; set; }
+
 
         public static void GenerateExceptionIfNull(User user)
         {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ExpensesCounter.Common.Models.Auth;
 using ExpensesCounter.Web.DAL;
 using ExpensesCounter.Web.DAL.Entities;
+using ExpensesCounter.Web.Options;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpensesCounter.Web.BLL.Account
@@ -15,10 +16,15 @@ namespace ExpensesCounter.Web.BLL.Account
         private readonly ApplicationContext _context;
         private readonly JwtTokenBuilder    _tokenBuilder;
 
-        public TokenProvider(ApplicationContext context, JwtTokenBuilder tokenBuilder)
+        public TokenProvider(ApplicationContext context, AuthOptions options)
         {
-            _context      = context;
-            _tokenBuilder = tokenBuilder;
+            _context = context;
+            _tokenBuilder = new JwtTokenBuilder(options.SecurityKey)
+            {
+                Audience = options.Audience,
+                Issuer   = options.Issuer,
+                LifeTime = TimeSpan.FromMinutes(options.LifetimeInMinutes)
+            };
         }
 
         public async Task<TokensResponse> GenerateTokensAsync(User user)

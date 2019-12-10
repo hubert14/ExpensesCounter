@@ -32,8 +32,8 @@ namespace ExpensesCounter.Web
             services.Configure<AuthOptions>(authSection);
             services.Configure<DbConnectionOptions>(connectionSection);
 
-            services.ResolveDependencies();
-
+            services.AddServices();
+            services.AddAutoMapper();
             services.AddContext(connectionOptions.DefaultConnection);
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

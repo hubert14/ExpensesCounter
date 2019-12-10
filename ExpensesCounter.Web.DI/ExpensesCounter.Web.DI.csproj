@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExpensesCounter.Web.BLL\ExpensesCounter.Web.BLL.csproj" />
+    <ProjectReference Include="..\ExpensesCounter.Web.Utils\ExpensesCounter.Web.Utils.csproj" />
   </ItemGroup>
 
   <ItemGroup>
