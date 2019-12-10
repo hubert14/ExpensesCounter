@@ -1,6 +1,4 @@
-using AutoMapper;
 using ExpensesCounter.Web.BLL;
-using ExpensesCounter.Web.BLL.DI;
 using ExpensesCounter.Web.DAL;
 using ExpensesCounter.Web.Utils.Mapping;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +8,17 @@ namespace ExpensesCounter.Web.DI
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddCurrentUserInfo(this IServiceCollection services)
+        {
+            services.AddScoped<CurrentUserInfo>();
+            
+            return services;
+        }
+
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            ServicesCollectionExtensions.AddServices(services);
-
+            BLL.DI.ServicesCollectionExtensions.AddServices(services);
+            
             return services;
         }
 

@@ -13,5 +13,18 @@ namespace ExpensesCounter.Web.DAL.Entities
         public bool IsActiveAssign { get; set; }
 
         public DateTimeOffset AssignedDateUtc { get; set; }
+
+        public ExpensesListUser(int userId, int listId)
+        {
+            UserId = userId;
+            ExpenseListId = listId;
+
+            IsActiveAssign = true;
+            AssignedDateUtc = DateTime.UtcNow;
+        }
+
+        public ExpensesListUser()
+        {
+        }
     }
 }

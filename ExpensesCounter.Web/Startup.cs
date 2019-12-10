@@ -32,6 +32,7 @@ namespace ExpensesCounter.Web
             services.Configure<AuthOptions>(authSection);
             services.Configure<DbConnectionOptions>(connectionSection);
 
+            services.AddCurrentUserInfo();
             services.AddServices();
             services.AddAutoMapper();
             services.AddContext(connectionOptions.DefaultConnection);
@@ -63,6 +64,8 @@ namespace ExpensesCounter.Web
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
             app.UseAuthentication();
+
+            app.UseCurrentUserMiddleware();
 
             app.UseRouting();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

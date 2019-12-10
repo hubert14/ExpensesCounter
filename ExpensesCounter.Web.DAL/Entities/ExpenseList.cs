@@ -8,6 +8,8 @@ namespace ExpensesCounter.Web.DAL.Entities
 
         public string Comment { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public ICollection<Expense> Expenses { get; set; }
         public ICollection<ExpensesListUser> Users { get; set; }
     }

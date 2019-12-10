@@ -8,5 +8,7 @@ namespace ExpensesCounter.Web.DAL.Entities
         public string Comment { get; set; }
 
         public decimal Count { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }
