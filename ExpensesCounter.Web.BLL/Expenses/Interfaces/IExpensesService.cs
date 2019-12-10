@@ -9,11 +9,11 @@ namespace ExpensesCounter.Web.BLL.Expenses.Interfaces
     {
         #region ExpensesList
 
-        List<ExpensesListModel> GetExpensesLists(int offset, int pageSize);
+        Task<List<ExpensesListModel>> GetExpensesListsAsync(int offset, int pageSize);
         Task<ExpensesListDetailModel> GetExpensesListAsync(int listId);
 
         Task<bool> AddExpensesListAsync(CreateExpensesListModel createModel);
-        Task<bool> UpdateExpensesListAsync(UpdateExpensesListModel updateModel);
+        Task<bool> UpdateExpensesListAsync(int listId, UpdateExpensesListModel updateModel);
         Task RemoveExpensesListAsync(int listId);
         Task<bool> UpdateAssignedUsersAsync(int listId, params int[] usersIds);
 
@@ -22,7 +22,7 @@ namespace ExpensesCounter.Web.BLL.Expenses.Interfaces
         #region Expenses
 
         Task<bool> AddExpenseAsync(AddExpenseModel addModel);
-        Task<bool> UpdateExpenseAsync(UpdateExpenseModel updateModel);
+        Task<bool> UpdateExpenseAsync(int id, UpdateExpenseModel updateModel);
         Task RemoveExpenseAsync(int expenseId);
 
         #endregion

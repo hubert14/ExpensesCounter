@@ -2,36 +2,34 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using ExpensesCounter.Common.Models;
-using ExpensesCounter.Common.Models.Auth;
+using ExpensesCounter.Common.Models.User;
+using ExpensesCounter.Web.BLL;
 using ExpensesCounter.Web.BLL.Account.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpensesCounter.Web.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IAccountService _accountService;
 
         // TODO: Add logger
-        public AccountController(IAuthService authService)
+        public AccountController(IAccountService accountService)
         {
-            _authService = authService;
+            _accountService = accountService;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync(LoginModel model)
+        [HttpGet]
+        public async Task<IActionResult> GetUserInfoAsync()
         {
             try
             {
-                var tokens = await _authService.LoginAsync(model);
-
-                return new JsonResult(tokens);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(new ErrorResponseModel(e.Message));
+                var info = await _accountService.GetInfoAsync();
+                return new JsonResult(info);
             }
             catch (Exception e)
             {
@@ -39,17 +37,13 @@ namespace ExpensesCounter.Web.Controllers
             }
         }
 
-        [HttpPost("login/{refreshToken}")]
-        public async Task<IActionResult> LoginByRefreshTokenAsync(string refreshToken)
+        [HttpPut]
+        public async Task<IActionResult> UpdateUserInfoAsync([FromBody] UpdateUserInfoModel updateModel)
         {
             try
             {
-                var accessToken = await _authService.LoginAsync(refreshToken);
-                return new JsonResult(accessToken);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(new ErrorResponseModel(e.Message));
+                var updateResult = await _accountService.UpdateInfoAsync(updateModel);
+                return updateResult ? (IActionResult) NoContent() : BadRequest();
             }
             catch (Exception e)
             {
@@ -57,17 +51,13 @@ namespace ExpensesCounter.Web.Controllers
             }
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync(RegisterModel model)
+        [HttpPut("enabling")]
+        public async Task<IActionResult> ChangeEnableStatusAsync()
         {
             try
             {
-                var tokens = await _authService.RegisterAsync(model);
-                return new JsonResult(tokens);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(new ErrorResponseModel(e.Message));
+                var updateResult = await _accountService.ChangeEnableStateAsync();
+                return updateResult ? (IActionResult) NoContent() : BadRequest();
             }
             catch (Exception e)
             {

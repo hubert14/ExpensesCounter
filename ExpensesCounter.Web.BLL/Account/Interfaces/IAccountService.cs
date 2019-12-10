@@ -5,8 +5,8 @@ namespace ExpensesCounter.Web.BLL.Account.Interfaces
 {
     public interface IAccountService
     {
-        Task<UserInfoModel> GetInfoAsync(int userId);
-        Task UpdateInfoAsync(int userId, UpdateUserInfoModel updateModel);
-        Task ChangeEnableStateAsync(int userId);
+        Task<UserInfoModel> GetInfoAsync();
+        Task<bool> UpdateInfoAsync(UpdateUserInfoModel updateModel);
+        Task<bool> ChangeEnableStateAsync();
     }
 }

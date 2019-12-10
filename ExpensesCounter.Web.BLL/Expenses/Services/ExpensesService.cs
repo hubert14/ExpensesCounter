@@ -25,13 +25,14 @@ namespace ExpensesCounter.Web.BLL.Expenses.Services
             _currentUserInfo = currentUserInfo;
         }
 
-        public List<ExpensesListModel> GetExpensesLists(int offset, int pageSize)
+        public async Task<List<ExpensesListModel>> GetExpensesListsAsync(int offset, int pageSize)
         {
-            var userLists = _context.UserLists
-                                    .Where(listUser => listUser.UserId == _currentUserInfo.Id &&
-                                                       listUser.IsActiveAssign)
-                                    .Select(listUser => listUser.ExpensesList)
-                                    .MakeOffset(offset, pageSize);
+            var userLists = await _context.UserLists
+                                          .Where(listUser => listUser.UserId == _currentUserInfo.Id &&
+                                                             listUser.IsActiveAssign)
+                                          .Select(listUser => listUser.ExpensesList)
+                                          .MakeOffset(offset, pageSize)
+                                          .ToListAsync();
 
             var mapped = _mapper.Map<List<ExpensesListModel>>(userLists);
             return mapped;
@@ -41,10 +42,11 @@ namespace ExpensesCounter.Web.BLL.Expenses.Services
         {
             var expensesList = await _context.ExpensesLists
                                              .Include(x => x.Expenses)
-                                             .Where(list => list.Users
-                                                                .Select(listUser => listUser.UserId)
-                                                                .Contains(_currentUserInfo.Id))
-                                             .FindByIdAsync(listId);
+                                             .FirstOrDefaultAsync(list =>
+                                                 list.Id == listId &&
+                                                 list.Users
+                                                     .Select(listUser => listUser.UserId)
+                                                     .Contains(_currentUserInfo.Id));
 
             if (expensesList == null) return null;
 
@@ -62,9 +64,12 @@ namespace ExpensesCounter.Web.BLL.Expenses.Services
             return true;
         }
 
-        public async Task<bool> UpdateExpensesListAsync(UpdateExpensesListModel updateModel)
+        public async Task<bool> UpdateExpensesListAsync(int listId, UpdateExpensesListModel updateModel)
         {
-            var entity = await _context.ExpensesLists.FindAsync(updateModel.Id);
+            var entity = await _context.ExpensesLists
+                                       .FirstOrDefaultAsync(list =>
+                                           list.Id == listId &&
+                                           list.Users.Select(u => u.UserId).Contains(_currentUserInfo.Id));
 
             entity.Title = updateModel.Title;
             entity.Comment = updateModel.Comment;
@@ -75,7 +80,11 @@ namespace ExpensesCounter.Web.BLL.Expenses.Services
 
         public async Task RemoveExpensesListAsync(int listId)
         {
-            var entity = await _context.ExpensesLists.FindAsync(listId);
+            var entity = await _context.ExpensesLists
+                                       .FirstOrDefaultAsync(list =>
+                                           list.Id == listId &&
+                                           list.Users.Select(u => u.UserId).Contains(_currentUserInfo.Id));
+
             entity.IsDeleted = true;
 
             await _context.SaveChangesAsync();
@@ -109,9 +118,9 @@ namespace ExpensesCounter.Web.BLL.Expenses.Services
             return true;
         }
 
-        public async Task<bool> UpdateExpenseAsync(UpdateExpenseModel updateModel)
+        public async Task<bool> UpdateExpenseAsync(int id, UpdateExpenseModel updateModel)
         {
-            var entity = await _context.Expenses.FindAsync(updateModel.Id);
+            var entity = await _context.Expenses.FindAsync(id);
             if (entity == null) return false;
 
             entity.Comment = updateModel.Comment;
@@ -123,7 +132,13 @@ namespace ExpensesCounter.Web.BLL.Expenses.Services
 
         public async Task RemoveExpenseAsync(int expenseId)
         {
-            var entity = await _context.Expenses.FindAsync(expenseId);
+            var entity = await _context.Expenses
+                                       .FirstOrDefaultAsync(expense =>
+                                           expense.Id == expenseId &&
+                                           expense.ExpenseList.Users
+                                                  .Select(u => u.UserId)
+                                                  .Contains(_currentUserInfo.Id));
+
             if (entity == null) return;
 
             entity.IsDeleted = true;
