@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Security.Claims;
+using System.Text;
 using ExpensesCounter.Web.DI;
 using ExpensesCounter.Web.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -50,7 +52,8 @@ namespace ExpensesCounter.Web
                              ValidateLifetime = true,
                              IssuerSigningKey =
                                  new SymmetricSecurityKey(Encoding.ASCII.GetBytes(authOptions.SecurityKey)),
-                             ValidateIssuerSigningKey = true
+                             ValidateIssuerSigningKey = true,
+                             ClockSkew = TimeSpan.Zero
                          };
                      });
 
@@ -63,11 +66,14 @@ namespace ExpensesCounter.Web
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
+
+            app.UseRouting();
+
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseCurrentUserMiddleware();
 
-            app.UseRouting();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

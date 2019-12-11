@@ -49,6 +49,8 @@ namespace ExpensesCounter.Web.BLL.Account.Services
         public async Task<TokensResponse> RegisterAsync(RegisterModel registerModel)
         {
             var newUser = _mapper.Map<User>(registerModel);
+            
+            newUser.PasswordHash = PasswordHasher.CreateHash(registerModel.Password);
 
             _context.Users.Add(newUser);
 
