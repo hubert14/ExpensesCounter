@@ -58,7 +58,7 @@ namespace ExpensesCounter.Web.BLL.Expenses.Services
         {
             var newList = _mapper.Map<ExpensesList>(createModel);
 
-            _context.ExpensesLists.Add(newList);
+            _context.UserLists.Add(new ExpensesListUser {UserId = _currentUserInfo.Id, ExpensesList = newList, IsActiveAssign = true});
             await _context.SaveChangesAsync();
 
             return true;
