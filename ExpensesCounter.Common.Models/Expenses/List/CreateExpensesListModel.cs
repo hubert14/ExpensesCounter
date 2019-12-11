@@ -10,5 +10,9 @@
             Title = title;
             Comment = comment;
         }
+
+        public CreateExpensesListModel()
+        {
+        }
     }
 }

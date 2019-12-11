@@ -2,16 +2,20 @@
 {
     public class AddExpenseModel
     {
-        public int ListId { get; }
-        public string Comment { get; }
+        public int ListId { get; set; }
+        public string Comment { get; set; }
 
-        public decimal Count { get; }
+        public int Count { get; set; }
 
-        public AddExpenseModel(int listId, decimal count, string comment = null)
+        public AddExpenseModel(int listId, int count, string comment = null)
         {
             ListId = listId;
             Count = count;
             Comment = comment;
+        }
+
+        public AddExpenseModel()
+        {
         }
     }
 }
