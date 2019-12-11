@@ -24,6 +24,8 @@ namespace ExpensesCounter.Web.Utils.Mapping
                     e => e.MapFrom(x => x.ListId));
 
             CreateMap<ExpensesList, ExpensesListModel>();
+            CreateMap<ExpensesList, ExpensesListDetailModel>()
+                .ForMember(x => x.Expenses, e => e.MapFrom(x => x.Expenses));
             CreateMap<CreateExpensesListModel, ExpensesList>();
         }
     }
