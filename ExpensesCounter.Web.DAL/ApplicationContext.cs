@@ -13,6 +13,11 @@ namespace ExpensesCounter.Web.DAL
         public DbSet<User>             Users         { get; set; }
         public DbSet<RefreshToken>     RefreshTokens { get; set; }
 
+        public ApplicationContext()
+        {
+            _connectionString = "Host=localhost;Database=expensesCounter;Username=postgres;Password=123456";
+        }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
         }
